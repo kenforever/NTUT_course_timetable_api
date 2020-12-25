@@ -9,7 +9,7 @@ import time
 from flask-cors import CORS
 
 app = flask.Flask(__name__)
-CORS(app)
+CORS(app, cors_allowed_origins='*')
 
 
 @app.route('/', methods=['GET'])
