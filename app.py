@@ -6,7 +6,7 @@ import TableExchange
 from flask import request, json
 import os
 import time
-from flask-cors import CORS
+from flask_cors import CORS
 from flask_cors import cross_origin
 
 app = flask.Flask(__name__)
