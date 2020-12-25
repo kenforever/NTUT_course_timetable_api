@@ -30,7 +30,6 @@ def result():
          uid = uid+".json"
          json_url = os.path.join(app.root_path, uid)
          data = json.load(open(json_url))
-         data.headers['Access-Control-Allow-Origin'] = '*'
          return data    
 
 # @app.route('/oldTable', methods=['GET'])
