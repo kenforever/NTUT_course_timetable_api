@@ -17,6 +17,7 @@ def home():
     return "<h1>Hello Flask!</h1>"
 
 @app.route('/geTable', methods=['POST'])
+@cross_origin()
 def result():
      if request.method == 'POST':
          uid = request.values['uid']
