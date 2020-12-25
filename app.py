@@ -6,9 +6,10 @@ import TableExchange
 from flask import request, json
 import os
 import time
+from flask-cors import CORS
 
 app = flask.Flask(__name__)
-
+CORS(app)
 
 
 @app.route('/', methods=['GET'])
