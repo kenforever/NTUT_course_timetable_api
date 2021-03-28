@@ -24,10 +24,8 @@ def geTable(uid,password,year,sem):
     table = soup.find('table')
 
     f = open("table.txt","w")
-    rows = table.find_all('th')
-
-    for i in range(6,19):
-        print(rows[i],file=f)
+    print(table,file=f)
+    
     f.close()
 
 
