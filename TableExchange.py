@@ -38,7 +38,6 @@ def Exchange(target):
             course = re.search('<a href="Curr.jsp?',line)
             
             stop = re.search((r'</th>'),line)
-            stop_td = re.match(r'</td>',line)
             free = re.search(r'班週會及導師時間',line)
             pe = re.search(r'體育',line)
             
@@ -71,6 +70,7 @@ def Exchange(target):
                 while is_finish != True:
                     teacher = re.search('Teach',line)
                     Classroom = re.match(r'<a href="Croom.jsp',line)
+                    stop_td = re.match(r'</td>',line)
                     if teacher:
                         teacher_Name_Temp = separate()
                         total.append(teacher_Name_Temp)
