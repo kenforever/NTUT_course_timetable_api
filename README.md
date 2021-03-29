@@ -2,7 +2,7 @@
 
 ## 使用教學
 1. 安裝flask, requests, bs4
-2. 運行 main.py
+2. 運行 app.py
 3. 發送POST請求到/geTable
 ------
 ## 參數
@@ -12,6 +12,7 @@ uid      | string    | 學號
 password | string    | 密碼
 year     | string    | 年度
 sem      | string    | 學期
+target	 | string    | 查詢對象(若無請傳送空值)
 
 ------
 ## 注意事項
