@@ -1,17 +1,17 @@
 import os
 import FileCreate
-
-def Exchange(uid):
+import re
+def Exchange(target):
     
-    f = open('table','r')
-    import re
-    def courseRead():
+    f = open(target,'r',encoding='utf-8')
+    
+    def separate():
         sp = line.split('>')
         sp = sp[1]
         sp = sp.split('<')
         sp = sp[0]
-        CourseName.append(sp)
-    
+        return sp
+
     def dayCount(inp):
         if count == 0:
             Mon.append(inp)
@@ -30,12 +30,15 @@ def Exchange(uid):
     Wed = []
     Thu = []
     Fri = []
+
     for i in range(len(line)):
         while line:
             time = re.match(r'<th>',line)
             emptyCourse = re.match(r'<td>',line)
-            course = re.match(r'<a',line)
+            course = re.search('<a href="Curr.jsp?',line)
+            
             stop = re.search((r'</th>'),line)
+            stop_td = re.match(r'</td>',line)
             free = re.search(r'班週會及導師時間',line)
             pe = re.search(r'體育',line)
             
@@ -45,22 +48,50 @@ def Exchange(uid):
             if stop:
                 count = 0
                 print()
+
             if time:
                 sp = line.split('<br/>')
-    
+            
+            if pe:
+                Course_Code=re.findall(r'(?<=code=)\w+',line)[0]
+                total = ["體育",Course_Code]
+                dayCount(total)
+                count +=1
+                line = f.readline()
+                break
+            
             if course:
-                CourseName=[]
-                for i in range(3):
-                    courseRead()
-                    line = f.readline()
-                dayCount(CourseName)
+                is_finish = False
+                total = []
+                
+                Course_Name_Temp = separate()
+                total.append(Course_Name_Temp)
+                Course_Code=re.findall(r'(?<=code=)\w+',line)[0]
+                line = f.readline()
+                while is_finish != True:
+                    teacher = re.search('Teach',line)
+                    Classroom = re.match(r'<a href="Croom.jsp',line)
+                    if teacher:
+                        teacher_Name_Temp = separate()
+                        total.append(teacher_Name_Temp)
+                        line =f.readline()
+                        
+                    if Classroom:
+                        classroom_Temp = separate()
+                        total.append(classroom_Temp)
+                        total.append(Course_Code)
+                        is_finish = True
+                        break
+                    if stop_td:
+                        is_finish = True
+                        break
+                line = f.readline()
+                dayCount(total)
                 count +=1
             if free:
                 dayCount("班週會及導師時間")
                 count +=1
-            if pe:
-                dayCount("體育")
-                count +=1
+            
             if emptyCourse:
                 a = ""
                 dayCount(a)
@@ -68,22 +99,27 @@ def Exchange(uid):
             
             line = f.readline()
         f.close
-    test = open("temp","w") 
+    test = open("temp","w",encoding='utf-8') 
     json = {}
+    del Mon[4]
+    del Tue[4]
+    del Wed[4]
+    del Thu[4]
+    del Fri[4]
     json["mon"]=Mon
-    json["tue"]=Tue    
+    json["tue"]=Tue 
     json["wed"]=Wed
     json["thu"]=Thu
     json["fri"]=Fri
     print(json,file=test)
     test.close()
-    test = open("temp","r")
+    test = open("temp","r",encoding='utf-8')
     soruse = test.read()
     test.close()
-    test=open("temp","w")
+    test=open("temp","w",encoding='utf-8')
     ttest = soruse.replace("'","\"")
     test.write(ttest)
     test.close()
-    uid = uid+".json"
-    os.rename("temp",uid)
+    target = target+".json"
+    os.rename("temp",target)
 

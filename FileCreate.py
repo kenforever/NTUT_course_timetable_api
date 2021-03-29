@@ -2,7 +2,8 @@ import requests
 from bs4 import BeautifulSoup as bs
 import TableExchange
 
-def geTable(uid,password,year,sem):
+def geTable(uid,password,year,sem,target):
+    
     session = requests.Session()
     headers = {"referer":"https://nportal.ntut.edu.tw/index.do"} 
     ac = {'muid':uid, 'mpassword':password}
@@ -17,13 +18,13 @@ def geTable(uid,password,year,sem):
     response = session.get('https://aps.ntut.edu.tw/course/tw/courseSID.jsp?sessionId='+value+'&reqFrom=Portal&userid='+uid+'&userType=50')
     TCookie = session.cookies.get_dict()
 
-    response = session.get('https://aps.ntut.edu.tw/course/tw/Select.jsp?format=-2&code='+uid+"&year="+year+"&sem="+sem,cookies = TCookie)
+    response = session.get('https://aps.ntut.edu.tw/course/tw/Select.jsp?format=-2&code='+target+"&year="+year+"&sem="+sem,cookies = TCookie)
     TCookie = session.cookies.get_dict()
 
     soup = bs(response.text,"html.parser")
     table = soup.find('table')
-
-    f = open("table","w")
+    
+    f = open(target,"w",encoding='utf-8')
     print(table,file=f)
     
     f.close()
