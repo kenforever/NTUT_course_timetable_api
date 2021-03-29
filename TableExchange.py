@@ -3,7 +3,7 @@ import FileCreate
 
 def Exchange(uid):
     
-    f = open('table.txt','r')
+    f = open('table','r')
     import re
     def courseRead():
         sp = line.split('>')
@@ -68,7 +68,7 @@ def Exchange(uid):
             
             line = f.readline()
         f.close
-    test = open("temp.txt","w") 
+    test = open("temp","w") 
     json = {}
     json["mon"]=Mon
     json["tue"]=Tue    
@@ -77,13 +77,13 @@ def Exchange(uid):
     json["fri"]=Fri
     print(json,file=test)
     test.close()
-    test = open("temp.txt","r")
+    test = open("temp","r")
     soruse = test.read()
     test.close()
-    test=open("temp.txt","w")
+    test=open("temp","w")
     ttest = soruse.replace("'","\"")
     test.write(ttest)
     test.close()
     uid = uid+".json"
-    os.rename("temp.txt",uid)
+    os.rename("temp",uid)
 

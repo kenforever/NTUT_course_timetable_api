@@ -23,7 +23,7 @@ def geTable(uid,password,year,sem):
     soup = bs(response.text,"html.parser")
     table = soup.find('table')
 
-    f = open("table.txt","w")
+    f = open("table","w")
     print(table,file=f)
     
     f.close()
