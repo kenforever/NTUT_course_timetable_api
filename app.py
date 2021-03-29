@@ -38,7 +38,7 @@ def result():
     data = json.load(open(json_url))
     return data    
     os.remove('./table')
-    os.remove(uid+'.json')
+    os.remove(uid)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080)
