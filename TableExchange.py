@@ -111,6 +111,7 @@ def Exchange(target):
     json["wed"]=Wed
     json["thu"]=Thu
     json["fri"]=Fri
+    json["target_uid']=target
     print(json,file=test)
     test.close()
     test = open("temp","r",encoding='utf-8')
