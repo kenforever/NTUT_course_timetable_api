@@ -1,7 +1,7 @@
 # 北科大課表API
 
 ## installation
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://github.com/kenforever/NTUT_course_timetable_api)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/kenforever/NTUT_course_timetable_api)
 
 `` pip install -r requirements.txt``
 
@@ -37,6 +37,7 @@ curl --header "Content-Type: application/json" \
 
 ```
 {
+    "target_uid": {target_uid},
     "fri": [
         "",
         "",
@@ -83,7 +84,6 @@ curl --header "Content-Type: application/json" \
         "",
         ""
     ],
-    "target_uid": {target_uid},
     "thu": [
         "",
         [
@@ -204,7 +204,7 @@ target	 | string    | 查詢對象(若無請傳送空值)
 
 ------
 ## 注意事項
-**本 API 部分以明文傳遞帳號密碼等信息，在生產環境前請先自行評估安全性。**
+**本 API 部分以明文傳遞帳號密碼等信息，在生產環境使用前請先自行評估安全性。**
 
 ## ToDo
 - 下載json檔
