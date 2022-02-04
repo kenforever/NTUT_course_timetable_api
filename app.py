@@ -32,11 +32,11 @@ def key_gen():
     private_key_string = key.exportKey()
 
     # get keys location
-    with open("config.json","r") as f:
+    with open("./keys/config.json","r") as f:
         config = json.load(f)
     private_key_location = config["private_key_location"]
 
-    with open("config.json","r") as f:
+    with open("./keys/config.json","r") as f:
         config = json.load(f)
     public_key_location = config["public_key_location"]
 
@@ -56,7 +56,7 @@ def get_key(key_file):
 
 def decrypt(password):
     # get config file
-    with open("config.json","r") as f:
+    with open("./keys/config.json","r") as f:
         config = json.load(f)
     private_key_location = config["private_key_location"]
     # get private key
@@ -74,7 +74,7 @@ def home():
 @app.route('/pubkey', methods=['GET'])
 def pub_key():
         # get config file
-    with open("config.json","r") as f:
+    with open("./keys/config.json","r") as f:
         config = json.load(f)
     public_key_location = config["public_key_location"]
     # get public key
@@ -151,7 +151,7 @@ if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080)
 
 # keys check
-with open("config.json","r") as f:
+with open("./keys/config.json","r") as f:
     config = json.load(f)
 private_key_location = config["private_key_location"]
 
