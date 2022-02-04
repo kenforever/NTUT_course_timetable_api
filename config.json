@@ -1,0 +1,4 @@
+{
+    "private_key_location": "./keys/private.pem",
+    "public_key_location": "./keys/public.pem"
+}
