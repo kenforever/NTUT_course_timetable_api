@@ -43,10 +43,8 @@ def Exchange(target):
             
             if count >= 6:
                 count = 0
-                print()
             if stop:
                 count = 0
-                print()
 
             if time:
                 sp = line.split('<br/>')

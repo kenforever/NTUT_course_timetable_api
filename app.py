@@ -133,7 +133,6 @@ def sec_getable():
         year = content["year"]
         sem = content["sem"]
         target = content["target"]
-        print(password, len(password))
 
     if target == "":
         target = uid
@@ -142,7 +141,6 @@ def sec_getable():
     target = target+".json"
     json_url = os.path.join(app.root_path, target)
     data = json.load(open(json_url))
-    print(data)
     return data
     
 if __name__ == '__main__':
