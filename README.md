@@ -37,6 +37,7 @@ curl --header "Content-Type: application/json" \
 
 ```
 {
+    "target_uid": {target_uid},
     "fri": [
         "",
         "",
@@ -83,7 +84,6 @@ curl --header "Content-Type: application/json" \
         "",
         ""
     ],
-    "target_uid": {target_uid},
     "thu": [
         "",
         [
