@@ -1,0 +1,6 @@
+{
+  "name": "ntut timetable api",
+  "description": "A simple api for ntut timetable",
+  "repository": "https://github.com/kenforever/NTUT_course_timetable_api",
+  "keywords": ["python", "flask", "api"]
+}
