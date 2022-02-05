@@ -23,7 +23,6 @@ def get_semester_info(uid,password,target):
     TCookie = session.cookies.get_dict()
 
     soup = bs(response.text,"html.parser")
-    print(soup)
 
     table = soup.find_all('table')
     df = pd.read_html(str(table[0]))
