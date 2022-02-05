@@ -24,7 +24,7 @@ def geTable(uid,password,year,sem,target):
     soup = bs(response.text,"html.parser")
     table = soup.find('table')
     
-    f = open(target,"w",encoding='utf-8')
+    f = open("./temps/"+target,"w",encoding='utf-8')
     print(table,file=f)
     
     f.close()

@@ -109,19 +109,11 @@ def result():
 
     FileCreate.geTable(uid,password,year,sem,target)
     TableExchange.Exchange(target)
-    target_json = target+".json"
-    json_url = os.path.join(app.root_path, target_json)
+    target_json = "./temps/"+target+".json"
     data = json.load(open(json_url))
     os.remove(target)
     os.remove(target_json)
     return data 
-
-
-# @app.route('/oldTable', methods=['GET'])
-# def old():
-#     json_url = os.path.join(app.root_path, )
-#     data = json.load(open(json_url))
-#     return data
 
 @app.route('/sec_geTable', methods=['POST'])
 @cross_origin()
@@ -138,9 +130,11 @@ def sec_getable():
         target = uid
     FileCreate.geTable(uid,password,year,sem,target)
     TableExchange.Exchange(target)
-    target = target+".json"
-    json_url = os.path.join(app.root_path, target)
+    target_json = "./temps/"+target+".json"
+    json_url = os.path.join(app.root_path, target_json)
     data = json.load(open(json_url))
+    os.remove("./temps/"+target)
+    os.remove(target_json)
     return data
     
 if __name__ == '__main__':
@@ -148,10 +142,19 @@ if __name__ == '__main__':
 
     app.run(host="0.0.0.0", port=8080)
 
-# keys check
-with open("./keys/config.json","r") as f:
-    config = json.load(f)
-private_key_location = config["private_key_location"]
 
-if (os.path.isfile(private_key_location) == False):
+
+try:
+        # keys check
+    with open("./keys/config.json","r") as f:
+        config = json.load(f)
+    private_key_location = config["private_key_location"]
+    with open(private_key_location) as f:
+        pass
+except FileNotFoundError:
     key_gen()
+
+try:
+    os.makedirs("./temps")
+except FileExistsError:
+    pass

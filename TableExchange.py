@@ -1,124 +1,86 @@
-import os
-import FileCreate
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from unicodedata import normalize
+import json
+import math
 import re
+
+def to_dict(day,target):
+    day_list = {}
+    for i in range(len(day)):
+        day_temp = day[i]
+        classroom = []
+        professors = []
+        try:
+            math.isnan(day_temp)
+            day_list[i+1] = "empty"
+        except:
+            course_temp = day[i].split(" ")
+            course_name = course_temp[0]
+            if len(course_temp) == 1 or course_name == "班週會及導師時間":
+                pass
+            elif len(course_temp) == 2:
+                if bool(re.search(r'\d',course_temp[1])):
+                    classroom.append(course_temp[1])
+                else:
+                    professors.append(course_temp[1])
+            else:
+                classroom.append(course_temp[-1])
+                for professor in course_temp[1:-1]:
+                    professors.append(professor)
+
+            day_list_temp = {
+                "course_name": course_name,
+                "professor": professors,
+                "classroom": classroom,
+                "code": get_course_code(course_name,target)
+            }
+            day_list[i+1] = day_list_temp
+    return day_list
+
+def get_course_code(name,target):
+
+    if name == "班週會及導師時間":
+        return ""
+
+    with open("./temps/"+target,"r") as f:
+        lines = f.readlines()
+    for line in lines:
+        if name in line:
+            code = line.split(";")[1].split("\"")[0].split("=")[1]
+            return code
+
 def Exchange(target):
+    with open("./temps/"+target,"r") as f:
+        lines = f.readlines()
+    with open("./temps/"+target,"w") as f:
+        for line in lines:
+            if line.startswith("<tr><td align=\"center\" colspan=\"6\">") == False:
+                f.write(line)
+
+    table_MN = pd.read_html("./temps/"+target,encoding='utf-8')
+    table_dataframe = pd.DataFrame(table_MN[0])
+
+    mon = to_dict(table_dataframe["一"].tolist(),target)
+    tue = to_dict(table_dataframe["二"].tolist(),target)
+    wed = to_dict(table_dataframe["三"].tolist(),target)
+    thu = to_dict(table_dataframe["四"].tolist(),target)
+    fri = to_dict(table_dataframe["五"].tolist(),target)
+    try:
+        sat = to_dict(table_dataframe["六"].tolist())
+    except:
+        sat = {}
     
-    f = open(target,'r',encoding='utf-8')
-    
-    def separate():
-        sp = line.split('>')
-        sp = sp[1]
-        sp = sp.split('<')
-        sp = sp[0]
-        return sp
 
-    def dayCount(inp):
-        if count == 0:
-            Mon.append(inp)
-        if count == 1:
-            Tue.append(inp)
-        if count == 2:
-            Wed.append(inp)
-        if count == 3:
-            Thu.append(inp)
-        if count == 4:
-            Fri.append(inp)
-    line = f.readline()
-    count = 0
-    Mon = []
-    Tue = []
-    Wed = []
-    Thu = []
-    Fri = []
+    total_list = {
+        "mon": mon,
+        "tue": tue,
+        "wed": wed,
+        "thu": thu,
+        "fri": fri,
+        "sat": sat
+    }
 
-    for i in range(len(line)):
-        while line:
-            time = re.match(r'<th>',line)
-            emptyCourse = re.match(r'<td>',line)
-            course = re.search('<a href="Curr.jsp?',line)
-            
-            stop = re.search((r'</th>'),line)
-            free = re.search(r'班週會及導師時間',line)
-            pe = re.search(r'體育',line)
-            
-            if count >= 6:
-                count = 0
-            if stop:
-                count = 0
-
-            if time:
-                sp = line.split('<br/>')
-            
-            if pe:
-                Course_Code=re.findall(r'(?<=code=)\w+',line)[0]
-                total = ["體育",Course_Code]
-                dayCount(total)
-                count +=1
-                line = f.readline()
-                break
-            
-            if course:
-                is_finish = False
-                total = []
-                
-                Course_Name_Temp = separate()
-                total.append(Course_Name_Temp)
-                Course_Code=re.findall(r'(?<=code=)\w+',line)[0]
-                line = f.readline()
-                while is_finish != True:
-                    teacher = re.search('Teach',line)
-                    Classroom = re.match(r'<a href="Croom.jsp',line)
-                    stop_td = re.match(r'</td>',line)
-                    if teacher:
-                        teacher_Name_Temp = separate()
-                        total.append(teacher_Name_Temp)
-                        line =f.readline()
-                        
-                    if Classroom:
-                        classroom_Temp = separate()
-                        total.append(classroom_Temp)
-                        total.append(Course_Code)
-                        is_finish = True
-                        break
-                    if stop_td:
-                        is_finish = True
-                        break
-                line = f.readline()
-                dayCount(total)
-                count +=1
-            if free:
-                dayCount("班週會及導師時間")
-                count +=1
-            
-            if emptyCourse:
-                a = ""
-                dayCount(a)
-                count +=1
-            
-            line = f.readline()
-        f.close
-    test = open("temp","w",encoding='utf-8') 
-    json = {}
-    del Mon[4]
-    del Tue[4]
-    del Wed[4]
-    del Thu[4]
-    del Fri[4]
-    json["mon"]=Mon
-    json["tue"]=Tue 
-    json["wed"]=Wed
-    json["thu"]=Thu
-    json["fri"]=Fri
-    json["target_uid"]=target
-    print(json,file=test)
-    test.close()
-    test = open("temp","r",encoding='utf-8')
-    soruse = test.read()
-    test.close()
-    test=open("temp","w",encoding='utf-8')
-    ttest = soruse.replace("'","\"")
-    test.write(ttest)
-    test.close()
-    target = target+".json"
-    os.rename("temp",target)
-
+    with open("./temps/"+target+".json","w",encoding="utf-8") as f:
+        json.dump(total_list,f,ensure_ascii=False)
