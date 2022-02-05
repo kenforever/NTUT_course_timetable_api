@@ -129,7 +129,7 @@ def sec_getable():
     if target == "":
         target = uid
     FileCreate.geTable(uid,password,year,sem,target)
-    TableExchange.Exchange(target)
+    TableExchange.Exchange(target,year,sem)
     target_json = "./temps/"+target+".json"
     json_url = os.path.join(app.root_path, target_json)
     data = json.load(open(json_url))

@@ -47,11 +47,10 @@ def get_course_code(name,target):
     for line in range(len(lines)):
         if name in lines[line]:
             code = lines[line-1].split(";")[1].split("\"")[0].split("=")[1]
-            print(name,code)
             break
     return code
 
-def Exchange(target):
+def Exchange(target,year,sem):
     with open("./temps/"+target,"r") as f:
         lines = f.readlines()
     with open("./temps/"+target,"w") as f:
@@ -72,6 +71,11 @@ def Exchange(target):
     except:
         sat = {}
     
+    info = {
+        "target":target,
+        "year":year,
+        "sem":sem
+    }
 
     total_list = {
         "mon": mon,
@@ -79,7 +83,8 @@ def Exchange(target):
         "wed": wed,
         "thu": thu,
         "fri": fri,
-        "sat": sat
+        "sat": sat,
+        "info":info
     }
 
     with open("./temps/"+target+".json","w",encoding="utf-8") as f:
