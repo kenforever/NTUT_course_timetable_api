@@ -134,6 +134,7 @@ def sec_getable():
     json_url = os.path.join(app.root_path, target_json)
     data = json.load(open(json_url))
     os.remove("./temps/"+target)
+    os.remove("./temps/"+target+"_code")
     os.remove(target_json)
     return data
     

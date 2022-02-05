@@ -42,12 +42,14 @@ def get_course_code(name,target):
     if name == "班週會及導師時間":
         return ""
 
-    with open("./temps/"+target,"r") as f:
+    with open("./temps/"+target+"_code","r") as f:
         lines = f.readlines()
-    for line in lines:
-        if name in line:
-            code = line.split(";")[1].split("\"")[0].split("=")[1]
-            return code
+    for line in range(len(lines)):
+        if name in lines[line]:
+            code = lines[line-1].split(";")[1].split("\"")[0].split("=")[1]
+            print(name,code)
+            break
+    return code
 
 def Exchange(target):
     with open("./temps/"+target,"r") as f:

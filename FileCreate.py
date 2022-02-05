@@ -22,11 +22,12 @@ def geTable(uid,password,year,sem,target):
     TCookie = session.cookies.get_dict()
 
     soup = bs(response.text,"html.parser")
-    table = soup.find('table')
+    table = soup.find_all('table')
     
-    f = open("./temps/"+target,"w",encoding='utf-8')
-    print(table,file=f)
-    
-    f.close()
+    with open("./temps/"+target,"w",encoding='utf-8') as f :
+        f.write(str(table[0]))
+
+    with open("./temps/"+target+"_code","w",encoding='utf-8') as f :
+        f.write(str(table[1]))
 
 
