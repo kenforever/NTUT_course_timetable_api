@@ -69,7 +69,7 @@ def decrypt(password):
 
 @app.route('/', methods=['GET'])
 def home():
-    return "<h1>Hello Flask!</h1>"
+    return "<h1>{flag:this_is_not_a_flag}}</h1>"
 
 @app.route('/pubkey', methods=['GET'])
 def pub_key():
@@ -88,32 +88,29 @@ def pub_key():
 
 @app.route('/geTable', methods=['POST'])
 @cross_origin()
-def result():
+def getable():
     if request.is_json == True :
         content = request.get_json()
         uid = content["uid"]
         password = content["password"]
         year = content["year"]
         sem = content["sem"]
-        target = content["target"]
+        try:
+            target = content["target"]
+        except KeyError:
+            target = ""
 
-    else:
-        uid = request.values['uid']
-        password = request.values['password']
-        year = request.values['year']
-        sem = request.values['sem']
-        target = request.values['target']
-        
     if target == "":
         target = uid
-
     FileCreate.geTable(uid,password,year,sem,target)
-    TableExchange.Exchange(target)
+    TableExchange.Exchange(target,year,sem)
     target_json = "./temps/"+target+".json"
+    json_url = os.path.join(app.root_path, target_json)
     data = json.load(open(json_url))
-    os.remove(target)
+    os.remove("./temps/"+target)
+    os.remove("./temps/"+target+"_code")
     os.remove(target_json)
-    return data 
+    return data
 
 @app.route('/sec_geTable', methods=['POST'])
 @cross_origin()
@@ -124,7 +121,10 @@ def sec_getable():
         password = decrypt(content["password"])
         year = content["year"]
         sem = content["sem"]
-        target = content["target"]
+        try:
+            target = content["target"]
+        except KeyError:
+            target = ""
 
     if target == "":
         target = uid

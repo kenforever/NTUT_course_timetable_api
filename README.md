@@ -1,3 +1,4 @@
+[![works badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 # 北科大課表API
 
 ## installation
@@ -12,7 +13,7 @@ run ``app.py`` using flask
 ### /pubkey
 get pubkey for encrypting password 
 
-```curl {your_api_url}/pubkey```
+```curl https://ntuttimetableapi.herokuapp.com/pubkey```
 
 #### response
 ```
@@ -30,153 +31,8 @@ curl --header "Content-Type: application/json" \
     "sem":{sem},
     "target":{search_target}
     }' \
-  {your_api_url}/geTable
+  https://ntuttimetableapi.herokuapp.com/geTable
 ```
-
-#### response
-
-```
-{
-    "target_uid": {target_uid},
-    "fri": [
-        "",
-        "",
-        "",
-        "",
-        "",
-        [
-            "體育",
-            "1001002"
-        ],
-        [
-            "體育",
-            "1001002"
-        ],
-        [
-            "企業資料通訊"
-        ],
-        ""
-    ],
-    "mon": [
-        "",
-        "",
-        "",
-        "",
-        "",
-        [
-            "管理資訊系統",
-            "阮明燦",
-            "科研大樓240e",
-            "AB03001"
-        ],
-        [
-            "管理資訊系統",
-            "阮明燦",
-            "科研大樓240e",
-            "AB03001"
-        ],
-        [
-            "管理資訊系統",
-            "阮明燦",
-            "科研大樓240e",
-            "AB03001"
-        ],
-        "",
-        ""
-    ],
-    "thu": [
-        "",
-        [
-            "金融市場",
-            "六教627(e)",
-            "AB02016"
-        ],
-        [
-            "金融市場",
-            "六教627(e)",
-            "AB02016"
-        ],
-        [
-            "金融市場",
-            "六教627(e)",
-            "AB02016"
-        ],
-        [
-            "創業之品牌管理與行銷",
-            "陳春山",
-            "二教206(e)",
-            "1418008"
-        ],
-        [
-            "創業之品牌管理與行銷",
-            "陳春山",
-            "二教206(e)",
-            "1418008"
-        ],
-        "",
-        [
-            "財務金融實習",
-            "梁亦鴻"
-        ],
-        [
-            "企業資料通訊"
-        ]
-    ],
-    "tue": [
-        "",
-        "",
-        "班週會及導師時間",
-        "班週會及導師時間",
-        [
-            "統計(二)",
-            "丁秀儀",
-            "六教627(e)",
-            "AB02006"
-        ],
-        [
-            "統計(二)",
-            "丁秀儀",
-            "六教627(e)",
-            "AB02006"
-        ],
-        [
-            "統計(二)",
-            "丁秀儀",
-            "六教627(e)",
-            "AB02006"
-        ],
-        "",
-        "",
-        ""
-    ],
-    "wed": [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        [
-            "哲學入門",
-            "黃偉雄",
-            "二教207(e)",
-            "1410171"
-        ],
-        [
-            "哲學入門",
-            "黃偉雄",
-            "二教207(e)",
-            "1410171"
-        ],
-        "",
-        [
-            "企業資料通訊"
-        ]
-    ]
-}
-```
-
-
 ### /sec_geTable
 get timetable using post with password encryption
 ```
@@ -189,18 +45,117 @@ curl --header "Content-Type: application/json" \
     "sem":{sem},
     "target":{search_target}
     }' \
-  {your_api_url}/sec_geTable
+  https://ntuttimetableapi.herokuapp.com/sec_geTable
 ```
+
+#### response
+
+```
+{
+    "info": {
+        "sem": {samester},
+        "target": {Student_id_of_your_search},
+        "year": {year}
+    },
+    "fri": {
+        "1": "empty",
+        "10": {
+            "classroom": [],
+            "code": "297115",
+            "course_name": "企業資料通訊",
+            "professor": []
+        },
+        "11": {
+            "classroom": [],
+            "code": "297115",
+            "course_name": "企業資料通訊",
+            "professor": []
+        },
+        "2": "empty",
+        "3": "empty",
+        "4": "empty",
+        "5": "empty",
+        "6": "empty",
+        "7": {
+            "classroom": [],
+            "code": "302562",
+            "course_name": "體育",
+            "professor": [
+                "豐東洋"
+            ]
+        },
+        "8": {
+            "classroom": [],
+            "code": "302562",
+            "course_name": "體育",
+            "professor": [
+                "豐東洋"
+            ]
+        },
+        "9": {
+            "classroom": [],
+            "code": "297115",
+            "course_name": "企業資料通訊",
+            "professor": []
+        }
+    },
+    "mon": {
+        "1": "empty",
+        "10": "empty",
+        "11": "empty",
+        "2": "empty",
+        "3": "empty",
+        "4": "empty",
+        "5": "empty",
+        "6": "empty",
+        "7": {
+            "classroom": [
+                "科研大樓240e"
+            ],
+            "code": "297114",
+            "course_name": "管理資訊系統",
+            "professor": [
+                "阮明燦"
+            ]
+        },
+        "8": {
+            "classroom": [
+                "科研大樓240e"
+            ],
+            "code": "297114",
+            "course_name": "管理資訊系統",
+            "professor": [
+                "阮明燦"
+            ]
+        },
+        "9": {
+            "classroom": [
+                "科研大樓240e"
+            ],
+            "code": "297114",
+            "course_name": "管理資訊系統",
+            "professor": [
+                "阮明燦"
+            ]
+        }
+    },
+    "sat": {},
+    ......etc
+}
+```
+
+
+
 
 ------
 ## 參數
 參數     | type      | 註解
 ---------|-----------|--------
 uid      | string    | 學號
-password | string    | 密碼
+password | string    | 密碼(在 ``sec_geTable`` 使用前請先用 ``/pubkey`` 以 RSA 加密)
 year     | string    | 年度
 sem      | string    | 學期
-target	 | string    | 查詢對象(若無請傳送空值)
+target	 | string    | 查詢對象(空值則會自動調用 ``uid`` 之值)
 
 ------
 ## 注意事項
@@ -210,4 +165,6 @@ target	 | string    | 查詢對象(若無請傳送空值)
 - 下載json檔
 - ~~查詢其他課表~~
 - 英文版
-- api平台
+- ~~api平台~~
+- 取得年度與學期資料
+- 直接使用 cookies 取得資料
