@@ -5,3 +5,4 @@ pandas
 pycryptodome==3.14.1
 requests==2.26.0
 lxml
+gunicorn
